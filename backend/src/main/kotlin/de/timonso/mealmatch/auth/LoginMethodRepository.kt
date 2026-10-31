@@ -1,4 +1,4 @@
-package de.timonso.mealmatch.user
+package de.timonso.mealmatch.auth
 
 import org.springframework.data.jpa.repository.JpaRepository
 import java.util.UUID

@@ -1,5 +1,6 @@
-package de.timonso.mealmatch.user
+package de.timonso.mealmatch.auth
 
+import de.timonso.mealmatch.user.AppUser
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.EnumType
