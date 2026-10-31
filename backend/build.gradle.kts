@@ -20,6 +20,7 @@ repositories {
 }
 
 dependencies {
+	implementation(libs.junit.jupiter)
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	implementation("org.springframework.boot:spring-boot-starter-flyway")
 	implementation("org.springframework.boot:spring-boot-starter-validation")
@@ -27,6 +28,8 @@ dependencies {
 	implementation("org.flywaydb:flyway-database-postgresql")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("tools.jackson.module:jackson-module-kotlin")
+	implementation("org.springframework.security:spring-security-crypto")
+	implementation("org.bouncycastle:bcprov-jdk18on:1.86")
 	runtimeOnly("org.postgresql:postgresql")
 	testImplementation("org.springframework.boot:spring-boot-starter-data-jpa-test")
 	testImplementation("org.springframework.boot:spring-boot-starter-flyway-test")
