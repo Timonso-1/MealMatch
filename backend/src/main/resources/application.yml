@@ -7,3 +7,7 @@ spring:
     hibernate:
       ddl-auto: validate
       open-in-view: false
+
+mealmatch:
+  jwt:
+    secret: ${MEALMATCH_JWT_SECRET}

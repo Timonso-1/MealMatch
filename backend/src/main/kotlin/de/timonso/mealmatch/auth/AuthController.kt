@@ -1,5 +1,6 @@
 package de.timonso.mealmatch.auth
 
+import de.timonso.mealmatch.auth.token.AccessTokenService
 import de.timonso.mealmatch.auth.token.RefreshTokenService
 import de.timonso.mealmatch.user.UserResponse
 import de.timonso.mealmatch.user.toResponse
@@ -16,6 +17,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder
 class AuthController(
     private val registration: RegistrationService,
     private val loginService: LoginService,
+    private val accessTokens: AccessTokenService,
     private val refreshTokens: RefreshTokenService,
 ) {
 
@@ -32,7 +34,11 @@ class AuthController(
     @PostMapping("/login")
     fun login(@Valid @RequestBody request: LoginRequest): LoginResponse {
         val user = loginService.login(request)
-        return LoginResponse(user.toResponse(), refreshTokens.issue(user.id))
+        return LoginResponse(
+            user = user.toResponse(),
+            accessToken = accessTokens.issue(user.id),
+            refreshToken = refreshTokens.issue(user.id),
+        )
     }
 }
 
