@@ -14,6 +14,10 @@ class SecurityConfig {
         http
             .csrf { it.disable() } // stateless API without cookies
             .sessionManagement { it.sessionCreationPolicy(SessionCreationPolicy.STATELESS) }
-            .authorizeHttpRequests { it.anyRequest().permitAll() } // temporary: locked down in the next step
+            .authorizeHttpRequests {
+                it.requestMatchers("/api/v1/auth/**", "/error").permitAll()
+                    .anyRequest().authenticated()
+            }
+            .oauth2ResourceServer { it.jwt { } }
             .build()
 }
