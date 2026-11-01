@@ -12,7 +12,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder
 
 @RestController
 @RequestMapping("/api/v1/auth")
-class AuthController(private val registration: RegistrationService) {
+class AuthController(private val registration: RegistrationService, private val loginService: LoginService) {
 
     @PostMapping("/register")
     fun register(@Valid @RequestBody request: RegisterRequest): ResponseEntity<UserResponse> {
@@ -23,4 +23,9 @@ class AuthController(private val registration: RegistrationService) {
             .toUri()
         return ResponseEntity.created(location).body(user.toResponse())
     }
-}
+
+    @PostMapping("/login")
+    fun login(@Valid @RequestBody request: LoginRequest): UserResponse =
+        loginService.login(request).toResponse()
+    }
+
