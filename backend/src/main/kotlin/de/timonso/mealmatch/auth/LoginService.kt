@@ -8,13 +8,15 @@ import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 
 @Service
-class LoginService (
+class LoginService(
     private val users: AppUserRepository,
     private val loginMethods: LoginMethodRepository,
     private val credentials: PasswordCredentialRepository,
     private val passwordEncoder: PasswordEncoder,
-    private val dummyHash: String = passwordEncoder.encode("dummy-password")!!
 ) {
+    // Verified against when the user or hash is missing, so every failed login costs the same time.
+    private val dummyHash: String = passwordEncoder.encode("dummy-password")!!
+
     @Transactional(readOnly = true)
     fun login(request: LoginRequest): AppUser {
         val user = users.findByEmailIgnoreCase(request.email.trim().lowercase())
