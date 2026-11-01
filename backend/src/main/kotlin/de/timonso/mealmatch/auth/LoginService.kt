@@ -14,7 +14,6 @@ class LoginService(
     private val credentials: PasswordCredentialRepository,
     private val passwordEncoder: PasswordEncoder,
 ) {
-    // Verified against when the user or hash is missing, so every failed login costs the same time.
     private val dummyHash: String = passwordEncoder.encode("dummy-password")!!
 
     @Transactional(readOnly = true)

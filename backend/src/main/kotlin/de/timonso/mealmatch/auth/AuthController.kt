@@ -40,5 +40,14 @@ class AuthController(
             refreshToken = refreshTokens.issue(user.id),
         )
     }
+
+    @PostMapping("/refresh")
+    fun refresh(@Valid @RequestBody request: RefreshRequest): TokenResponse {
+        val rotated = refreshTokens.rotate(request.refreshToken) ?: throw InvalidTokenException()
+        return TokenResponse(
+            accessToken = accessTokens.issue(rotated.userId),
+            refreshToken = rotated.refreshToken,
+        )
+    }
 }
 

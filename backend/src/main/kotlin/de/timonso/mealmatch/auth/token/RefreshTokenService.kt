@@ -10,6 +10,8 @@ import java.util.Base64
 import java.util.UUID
 import java.util.HexFormat
 
+data class RotatedToken(val userId: UUID, val refreshToken: String)
+
 @Service
 class RefreshTokenService(private val tokens: RefreshTokenRepository) {
 
@@ -28,6 +30,18 @@ class RefreshTokenService(private val tokens: RefreshTokenRepository) {
             )
         )
         return token
+    }
+
+    @Transactional
+    fun rotate(rawToken: String): RotatedToken? {
+        val now = Instant.now()
+        val token = tokens.findByTokenHash(hash(rawToken)) ?: return null
+        if (token.revokedAt != null || token.expiresAt.isBefore(now)) return null
+        if (tokens.markUsed(token.id, now) == 0) {
+            tokens.revokeFamily(token.familyId, now)
+            return null
+        }
+        return RotatedToken(token.userId, issue(token.userId, token.familyId))
     }
 
     private fun hash(token: String): String =
